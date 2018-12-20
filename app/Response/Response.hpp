@@ -6,11 +6,12 @@
 #include <string>
 
 #include "View.hpp"
+#include "Types.hpp"
 
 class Response
 {
     std::string sContent;
-    std::unordered_map<std::string, std::string> oHeaders;
+    TStringStringUnorderedMap oHeaders;
     
     public:
         std::string fnGetOutput();

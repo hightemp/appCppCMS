@@ -15,7 +15,7 @@ std::string Response::fnGetOutput()
 {
     std::string sHeaders;
     
-    for (std::pair<std::string, std::string> oPair : oHeaders) {
+    for (TStringStringPair oPair : oHeaders) {
         sHeaders += oPair.first + ":" + oPair.second + "\r\n";
     }
     

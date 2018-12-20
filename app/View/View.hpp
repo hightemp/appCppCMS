@@ -9,15 +9,22 @@
 #include <unordered_map>
 #include <stdexcept>
 
+#include "Types.hpp"
+
 class View
 {
-    std::unordered_map<std::string, std::string> oBuffers;
-    std::vector<std::string> oBufferStack;
+    TStringStringUnorderedMap oBuffers;
+    TStringVector oBufferStack;
+    TStringVector oOpenedTags;
+    
+    TStringStringUnorderedMapVector oMetaTags={{{"charset", "utf-8"}}};
+    std::string sEncoding = "utf-8";
     
     public:
+    
         View();
         ~View();
-
+        
         std::string fnGetContent();
         void fnFlush();
         void fnStartBuffer(std::string sName);
@@ -29,6 +36,13 @@ class View
         void fnSetBufferContents(std::string sString);
         std::string fnGetCurrentBufferName();
 
+        bool fnHasOpenedTags();
+        void fnTag(std::string sTagName, TStringStringUnorderedMap oAttributes={});
+        void fnSingleTag(std::string sTagName, TStringStringUnorderedMap oAttributes={});
+        void fnCloseTag();
+        
+        void fnHTML5Open();
+        void fnHTML5Close();
 };
 
 #endif

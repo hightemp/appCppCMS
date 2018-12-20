@@ -23,11 +23,8 @@ int main(int argc, char **argv, char** env)
     segvcatch::init_segv(&handle_segv);
     segvcatch::init_fpe(&handle_fpe);
     
-    oView.fnWriteToBuffer("1\n");
-    oView.fnStartBuffer("test");
-        oView.fnWriteToBuffer("2\n");
-    oView.fnEndBuffer();
-    oView.fnWriteToBuffer("3\n");
+    oView.fnHTML5Open();
+    oView.fnHTML5Close();
     
     oResponse.fnSetContent(oView);
     oResponse.fnFlush();
