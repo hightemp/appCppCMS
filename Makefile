@@ -1,6 +1,7 @@
 
 APP_FILES = $(wildcard app/*/*.cpp)
 APP_DIRS = $(wildcard app/*/)
+CGI_BIN_PATH = cgi-bin
 
 LIBS = -lstdc++ \
 		-ldl \
@@ -22,14 +23,14 @@ prepare:
 
 build:
 	$(MAKE) -C lib/*/.
-	$(MAKE) -C addons/*/.
+	$(MAKE) CGI_BIN_PATH=../../$(CGI_BIN_PATH) -C addons/*/.
 	
 	g++-8 \
 	$(CPP_FLAGS) \
 	-s \
 		main.cpp \
 		$(APP_FILES) \
-	-o cgi-bin/main.cgi \
+	-o $(CGI_BIN_PATH)/main.cgi \
 	$(foreach INCLUDE_DIR, $(APP_DIRS), -I$(INCLUDE_DIR)) \
 	$(LIBS)
 
