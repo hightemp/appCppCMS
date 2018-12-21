@@ -13,7 +13,9 @@
 #include "View.hpp"
 #include "Response.hpp"
 #include "Database.hpp"
+#include "Configuration.hpp"
 
+extern Configuration oConfiguration;
 extern View oView;
 extern Response oResponse;
 extern Database oDatabase;

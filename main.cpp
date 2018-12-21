@@ -4,6 +4,7 @@
 using namespace std;
 using namespace cgicc;
 
+Configuration oConfiguration;
 View oView;
 Response oResponse;
 Database oDatabase;
