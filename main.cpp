@@ -23,6 +23,7 @@ int main(int argc, char **argv, char** env)
     segvcatch::init_segv(&handle_segv);
     segvcatch::init_fpe(&handle_fpe);
     
+    oView.fnAddScriptSrc("test.js");
     oView.fnHTML5Open();
     oView.fnHTML5Close();
     

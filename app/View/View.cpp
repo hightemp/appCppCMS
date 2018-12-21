@@ -88,22 +88,29 @@ void View::fnTag(std::string sTagName, TStringStringUnorderedMap oAttributes)
 
 void View::fnSingleTag(std::string sTagName, TStringStringUnorderedMap oAttributes)
 {
+    this->oBuffers[this->fnGetCurrentBufferName()] += this->fnGetSingleTag(sTagName, oAttributes);
+}
+
+std::string View::fnGetSingleTag(std::string sTagName, TStringStringUnorderedMap oAttributes)
+{
     bool bDoctype = sTagName.find("doctype")!=std::string::npos;
     
-    auto &rOutput = this->oBuffers[this->fnGetCurrentBufferName()];
+    std::string sOutput;
     
-    rOutput += "<"; 
+    sOutput += "<"; 
     if (bDoctype) 
-        rOutput += "!";
-    rOutput += sTagName;
+        sOutput += "!";
+    sOutput += sTagName;
     
     for (TStringStringPair oPair : oAttributes) {
-        rOutput += " " + oPair.first + "='" + oPair.second + "'";
+        sOutput += " " + oPair.first + "='" + oPair.second + "'";
     }
     
     if (bDoctype) 
-        rOutput += " html";
-    rOutput += ">";
+        sOutput += " html";
+    sOutput += ">";
+    
+    return sOutput;
 }
 
 void View::fnCloseTag()
@@ -125,7 +132,6 @@ void View::fnHTML5Open()
             for (auto &oTagAttributes : oMetaTags) {
                 this->fnTag("meta", oTagAttributes);
             }
-            //this->fnTag("meta", {{"charset", "utf-8"}});
         this->fnCloseTag();
         
         this->fnTag("body");
@@ -134,8 +140,50 @@ void View::fnHTML5Open()
 
 void View::fnHTML5Close()
 {
+            this->fnScriptTags();
         this->fnCloseTag();
     this->fnCloseTag();
+}
+
+void View::fnAddLink(TStringStringUnorderedMap oAttributes)
+{
+    this->oLinkTags.push_back(oAttributes);
+}
+
+void View::fnAddLinkStyle(std::string sPath)
+{
+    this->fnAddLink({{"rel", "stylesheet"}, {"href", sPath}});
+}
+
+void View::fnAddMeta(TStringStringUnorderedMap oAttributes)
+{
+    this->oMetaTags.push_back(oAttributes);
+}
+
+void View::fnAddScript(TStringStringUnorderedMap oAttributes)
+{
+    this->oScriptTags.push_back(oAttributes);
+}
+
+void View::fnAddScriptSrc(std::string sPath)
+{
+    this->fnAddScript({{"src", sPath}});
+}
+
+void View::fnScriptTags()
+{
+    this->oBuffers[this->fnGetCurrentBufferName()] += this->fnGetScriptTags();
+}
+
+std::string View::fnGetScriptTags()
+{
+    std::string sResult;
+    
+    for (auto &oTagAttributes : this->oScriptTags) {
+        sResult += this->fnGetSingleTag("script", oTagAttributes);
+    }
+    
+    return sResult;
 }
 
 /*

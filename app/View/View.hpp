@@ -18,8 +18,10 @@ class View
     TStringVector oOpenedTags;
     
     TStringStringUnorderedMapVector oMetaTags={{{"charset", "utf-8"}}};
+    TStringStringUnorderedMapVector oLinkTags;
+    TStringStringUnorderedMapVector oScriptTags;
     std::string sEncoding = "utf-8";
-    
+
     public:
     
         View();
@@ -39,10 +41,19 @@ class View
         bool fnHasOpenedTags();
         void fnTag(std::string sTagName, TStringStringUnorderedMap oAttributes={});
         void fnSingleTag(std::string sTagName, TStringStringUnorderedMap oAttributes={});
+        std::string fnGetSingleTag(std::string sTagName, TStringStringUnorderedMap oAttributes={});
         void fnCloseTag();
         
         void fnHTML5Open();
         void fnHTML5Close();
+
+        void fnAddLink(TStringStringUnorderedMap oAttributes);
+        void fnAddLinkStyle(std::string sPath);
+        void fnAddMeta(TStringStringUnorderedMap oAttributes);
+        void fnAddScript(TStringStringUnorderedMap oAttributes);
+        void fnAddScriptSrc(std::string sPath);
+        void fnScriptTags();
+        std::string fnGetScriptTags();
 };
 
 #endif
