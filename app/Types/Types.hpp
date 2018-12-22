@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 #include <string>
+#include <memory>
 
 typedef std::vector<std::string> TStringVector;
 typedef std::pair<std::string, std::string> TStringStringPair;
@@ -14,6 +15,6 @@ typedef std::vector<TStringStringUnorderedMap> TStringStringUnorderedMapVector;
 struct ConfigurationNode;
 
 typedef ConfigurationNode * PConfigurationNode;
-typedef std::unordered_map<std::string, ConfigurationNode> TStringConfigurationNodeUnorderedMap;
+typedef std::unordered_map<std::string, std::unique_ptr<ConfigurationNode>> TStringConfigurationNodeUnorderedMap;
 
 #endif

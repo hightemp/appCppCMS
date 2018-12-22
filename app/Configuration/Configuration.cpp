@@ -20,12 +20,12 @@ void Configuration::fnLoadFile(std::string sFileName)
 
 void Configuration::fnSetString(std::string sKey, std::string sValue)
 {
-    ConfigurationStringNode oStringNode;
+    this->oStore[sKey].reset(new ConfigurationStringNode);
     
-    this->oStore[sKey] = oStringNode;
+    this->oStore[sKey]->sValue = sValue
 }
 
 std::string Configuration::fnGetString(std::string sKey, std::string sDefaultValue)
 {
-    return this->oStore[sKey].sValue;
+    return this->oStore[sKey]->sValue;
 }
