@@ -4,26 +4,38 @@
 using namespace std;
 using namespace cgicc;
 
-Configuration oConfiguration;
-View oView;
-Response oResponse;
-Database oDatabase;
+Logger oErrorLogger("errors.log", 0);
 
 void handle_segv()
 {
+    oErrorLogger.fnLog("Segmentation fault");
     throw std::runtime_error("SEGV");
 }
 
 void handle_fpe()
 {
+    oErrorLogger.fnLog("Floating point exception");
     throw std::runtime_error("FPE");
 }
 
+struct Initializer
+{
+    Initializer()
+    {
+        segvcatch::init_segv(&handle_segv);
+        segvcatch::init_fpe(&handle_fpe);
+    }
+};
+
+Initializer oInitializer;
+Configuration oConfiguration;
+Logger oLogger;
+View oView;
+Response oResponse;
+Database oDatabase;
+
 int main(int argc, char **argv, char** env)
 {
-    segvcatch::init_segv(&handle_segv);
-    segvcatch::init_fpe(&handle_fpe);
-    
     oView.fnAddScriptSrc("test.js");
     oView.fnHTML5Open();
     oView.fnHTML5Close();

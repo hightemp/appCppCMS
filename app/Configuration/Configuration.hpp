@@ -4,8 +4,10 @@
 
 #include <iostream>
 #include <fstream>
+#include <cstdio>
 
 #include "Types.hpp"
+#include "main.hpp"
 
 struct ConfigurationNode
 {
@@ -24,7 +26,7 @@ struct ConfigurationIntNode : public ConfigurationNode
 {
     int iValue;
 
-    ConfigurationStringNode() : ConfigurationNode(2) {};
+    ConfigurationIntNode() : ConfigurationNode(2) {};
 };
 
 class Configuration
@@ -39,6 +41,8 @@ class Configuration
         
         void fnSetString(std::string sKey, std::string sValue);
         std::string fnGetString(std::string sKey, std::string sDefaultValue);
+        void fnSetInt(std::string sKey, int iValue);
+        int fnGetInt(std::string sKey, int iDefaultValue);
 };
 
 #endif

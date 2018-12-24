@@ -1,4 +1,7 @@
 
+#ifndef DATABASE_HPP
+#define DATABASE_HPP
+
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/resultset.h>
@@ -68,3 +71,5 @@ class Database
             return this->fnGetField(this->fnFormatQuery(sQuery, pArguments...));
         }
 };
+
+#endif
