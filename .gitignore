@@ -9,3 +9,4 @@
 /tests/CMakeCache.txt
 /tests/bin/*
 !/tests/bin
+!/tests/bin/.gitignore
