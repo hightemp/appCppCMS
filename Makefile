@@ -48,6 +48,7 @@ clean:
 	$(MAKE) clean -C addons/*/.
 	$(MAKE) clean -C lib/*/.
 	find tests/. -iwholename '*cmake*' -not -name CMakeLists.txt -delete
+	rm -f tests/Makefile
 	
 .PHONY: all test clean addons/*/.
 .DEFAULT_GOAL := all
