@@ -14,6 +14,8 @@
 #include <sstream>
 #include <algorithm>
 
+#include "main.hpp"
+
 typedef std::unique_ptr<sql::ResultSet> PResultSet;
 typedef std::unique_ptr<sql::Statement> PStatement;
 typedef std::unique_ptr<sql::Connection> PConnection;

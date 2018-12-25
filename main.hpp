@@ -18,9 +18,15 @@
 #include "Response.hpp"
 #include "Database.hpp"
 #include "Configuration.hpp"
+#include "FileSystem.hpp"
+#include "DateTime.hpp"
+#include "Application.hpp"
 
 class Logger;
 class Configuration;
+class Database;
+class View;
+class Response;
 
 extern Logger oErrorLogger;
 extern Configuration oConfiguration;

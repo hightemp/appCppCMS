@@ -76,7 +76,7 @@ std::string Database::fnFormatQuery(std::string sQuery, ...)
             }
         });
     } catch (std::exception& oException) {
-        std::cerr << "Exception catched : " << oException.what() << std::endl;
+        oErrorLogger.fnErrorF("Exception catched: %s", 0, oException.what());
     }
     
     va_end(pArguments); 

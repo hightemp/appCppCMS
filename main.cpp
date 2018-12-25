@@ -8,13 +8,13 @@ Logger oErrorLogger("errors.log", 0);
 
 void handle_segv()
 {
-    oErrorLogger.fnLog("Segmentation fault");
+    oErrorLogger.fnError("Segmentation fault", 0);
     throw std::runtime_error("SEGV");
 }
 
 void handle_fpe()
 {
-    oErrorLogger.fnLog("Floating point exception");
+    oErrorLogger.fnError("Floating point exception", 0);
     throw std::runtime_error("FPE");
 }
 

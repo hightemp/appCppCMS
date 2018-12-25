@@ -3,18 +3,13 @@
 
 void Logger::fnInitialize(std::string sLogFileName, char cLogLevel)
 {
-    char aCurrentDir[FILENAME_MAX];
-    
-    getcwd(aCurrentDir, FILENAME_MAX);
-    
-    std::string sCurrentDir(aCurrentDir);
-    
     std::string sFilePath;
     
     if (sLogFileName[0]=='/') {
         sFilePath = sLogFileName;
     } else {
-        sFilePath = sCurrentDir + sLogFileName;
+        std::string sCurrentDir = FileSystem::fnGetExecutableDirPath();
+        sFilePath = sCurrentDir + "/" + sLogFileName;
     }
     
     oFileBuf.open(sFilePath, std::ios::out);
@@ -24,8 +19,6 @@ void Logger::fnInitialize(std::string sLogFileName, char cLogLevel)
 
 Logger::Logger(std::string sLogFileName, char cLogLevel)
 {
-    std::cout << "Logger::Logger(std::string sLogFileName, char cLogLevel)\n";
-    
     this->fnInitialize(
         sLogFileName,
         cLogLevel
@@ -34,8 +27,6 @@ Logger::Logger(std::string sLogFileName, char cLogLevel)
 
 Logger::Logger()
 {
-    std::cout << "Logger::Logger()\n";
-
     this->fnInitialize(
         oConfiguration.fnGetString("sLogFilePath", "test.log"),
         oConfiguration.fnGetInt("cLogLevel", 3)
@@ -44,7 +35,6 @@ Logger::Logger()
 
 Logger::~Logger()
 {
-    std::cout << "Logger::~Logger()\n";
     oFileBuf.close();
 }
 
@@ -60,19 +50,57 @@ void Logger::fnLog(std::string sString, char cLogLevel)
     
     std::ostream oOStream(&oFileBuf);
     
-    time_t oRawTime;
+    char caStrTime[20];
+    time_t oRawTime = time(NULL);
+    struct tm * pRawTime = localtime(&oRawTime);
+
+    strftime(caStrTime, 20, "%F %X", pRawTime);
     
-    time(&oRawTime);
-    
-    oOStream << ctime(&oRawTime) << sString << std::endl;
+    oOStream << caStrTime << " " << sString << std::endl;
 }
 
 void Logger::fnWarning(std::string sString, char cLogLevel)
 {
-    this->fnLog(" [W] "+sString, cLogLevel);
+    this->fnLog("[W] "+sString, cLogLevel);
 }
 
 void Logger::fnError(std::string sString, char cLogLevel)
 {
-    this->fnLog(" [E] "+sString, cLogLevel);
+    this->fnLog("[E] "+sString, cLogLevel);
+}
+
+void Logger::fnLogF(std::string sString, char cLogLevel, ...)
+{
+    char caBuffer[255];
+    va_list pArglist;
+    
+    va_start(pArglist, cLogLevel);
+    vsprintf(caBuffer, sString.c_str(), pArglist);
+    va_end(pArglist);
+    
+    this->fnLog(caBuffer, cLogLevel);
+}
+
+void Logger::fnWarningF(std::string sString, char cLogLevel, ...)
+{
+    char caBuffer[255];
+    va_list pArglist;
+    
+    va_start(pArglist, cLogLevel);
+    vsprintf(caBuffer, sString.c_str(), pArglist);
+    va_end(pArglist);
+    
+    this->fnWarning(caBuffer, cLogLevel);
+}
+
+void Logger::fnErrorF(std::string sString, char cLogLevel, ...)
+{
+    char caBuffer[255];
+    va_list pArglist;
+    
+    va_start(pArglist, cLogLevel);
+    vsprintf(caBuffer, sString.c_str(), pArglist);
+    va_end(pArglist);
+    
+    this->fnError(caBuffer, cLogLevel);
 }

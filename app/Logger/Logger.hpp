@@ -6,7 +6,6 @@
 #include <fstream>
 #include <time.h>
 #include <stdio.h>
-#include <unistd.h>
 
 #include "main.hpp"
 
@@ -23,9 +22,12 @@ class Logger
         Logger();
         ~Logger();
         
-        void fnLog(std::string sString, char cLogLevel=0);
-        void fnWarning(std::string sString, char cLogLevel=0);
-        void fnError(std::string sString, char cLogLevel=0);
+        void fnLog(std::string sString, char cLogLevel);
+        void fnWarning(std::string sString, char cLogLevel);
+        void fnError(std::string sString, char cLogLevel);
+        void fnLogF(std::string sString, char cLogLevel, ...);
+        void fnWarningF(std::string sString, char cLogLevel, ...);
+        void fnErrorF(std::string sString, char cLogLevel, ...);
 };
 
 #endif
