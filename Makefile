@@ -25,6 +25,10 @@ prepare:
 run:
 	$(CGI_BIN_PATH)/$(CGI_OUTPUT_FILE_NAME)
 
+test:
+	cmake tests/CMakeLists.txt
+	$(MAKE) -C tests/.
+
 build:
 	$(MAKE) -C lib/*/.
 	$(MAKE) CGI_BIN_PATH=../../$(CGI_BIN_PATH) -C addons/*/.
@@ -43,6 +47,7 @@ clean:
 	rm -f *.cpp.* *.cpp.*
 	$(MAKE) clean -C addons/*/.
 	$(MAKE) clean -C lib/*/.
+	find tests/. -iwholename '*cmake*' -not -name CMakeLists.txt -delete
 	
 .PHONY: all test clean addons/*/.
 .DEFAULT_GOAL := all
