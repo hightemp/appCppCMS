@@ -16,8 +16,9 @@ file(GLOB TEST_SOURCE_FILES
 
 foreach (TEST_SOURCE_FILE ${TEST_SOURCE_FILES})
 	# Link runTests with what we want to test and the GTest and pthread library
-	string(REPLACE ".cpp" "" TEST_OUTPUT_FILE ${TEST_SOURCE_FILE})
-	add_executable(bin/${TEST_OUTPUT_FILE} TEST_SOURCE_FILE)
+	GET_FILENAME_COMPONENT(TEST_OUTPUT_FILE ${TEST_SOURCE_FILE} NAME)
+	string(REPLACE ".cpp" "" TEST_OUTPUT_FILE ${TEST_OUTPUT_FILE})
+	add_executable(bin/${TEST_OUTPUT_FILE} ${TEST_SOURCE_FILE})
 	target_link_libraries(bin/${TEST_OUTPUT_FILE} ${GTEST_LIBRARIES} pthread)
 	execute_process(COMMAND bin/${TEST_OUTPUT_FILE})
 endforeach(TEST_SOURCE_FILE)
