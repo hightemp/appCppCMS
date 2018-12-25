@@ -7,4 +7,5 @@
 /tests/CMakeFiles
 /tests/cmake_install.cmake
 /tests/CMakeCache.txt
-
+/tests/bin/*
+!/tests/bin
