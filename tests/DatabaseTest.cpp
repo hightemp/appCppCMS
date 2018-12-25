@@ -1,7 +1,8 @@
 
 #include <gtest/gtest.h>
 
-//#include "Database.hpp"
+#include "Database.hpp"
+#include "Database.cpp"
 
 TEST(Database, Connect) { 
     
