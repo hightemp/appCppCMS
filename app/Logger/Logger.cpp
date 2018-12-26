@@ -3,14 +3,7 @@
 
 void Logger::fnInitialize(std::string sLogFileName, char cLogLevel)
 {
-    std::string sFilePath;
-    
-    if (sLogFileName[0]=='/') {
-        sFilePath = sLogFileName;
-    } else {
-        std::string sCurrentDir = FileSystem::fnGetExecutableDirPath();
-        sFilePath = sCurrentDir + "/" + sLogFileName;
-    }
+    std::string sFilePath = FileSystem::fnGetFullPath(sLogFileName);
     
     oFileBuf.open(sFilePath, std::ios::out);
     
@@ -28,7 +21,7 @@ Logger::Logger(std::string sLogFileName, char cLogLevel)
 Logger::Logger()
 {
     this->fnInitialize(
-        oConfiguration.fnGetString("sLogFilePath", "test.log"),
+        oConfiguration.fnGetString("sLogFilePath", "logger.log"),
         oConfiguration.fnGetInt("cLogLevel", 3)
     );
 }

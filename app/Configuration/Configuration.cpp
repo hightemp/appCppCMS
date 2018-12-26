@@ -14,15 +14,52 @@ Configuration::~Configuration()
 void Configuration::fnLoadFile(std::string sFileName)
 {
     std::filebuf oFileBuf;
+    std::string sFilePath = FileSystem::fnGetFullPath(sFileName);
+    
+    oFileBuf.open(sFilePath, std::ios::in);
     
     if (!oFileBuf.is_open()) {
-        oErrorLogger.fnErrorF("Configuration file %s did not open", 0, sFileName.c_str());
+        oErrorLogger.fnErrorF("Configuration file '%s' did not open", 0, sFilePath.c_str());
         return;
     }
     
+    bool bStringFlag = false;
+    bool bIntFlag = false;
+    bool bVarNameFlag = false;
+    bool bVarValueFlag = false;
+
+    std::string sVarName;
+    std::string sValue;
+    
     while (oFileBuf.snextc() != EOF) {
-      char cChar = oFileBuf.sgetc();
-      std::cout << cChar << std::endl;
+        char cChar = oFileBuf.sgetc();
+      
+        if (!bVarNameFlag) {
+            if (cChar>='a' && cChar<='z' || cChar>='0' && cChar<='9') {
+                sVarName += cChar;
+                bVarNameFlag = true;
+            }
+        } else {
+            if (cChar>='a' && cChar<='z' || cChar>='0' && cChar<='9') {
+                sVarName += cChar;
+            } else {
+                if (cChar=='=') {
+                    bVarNameFlag = false;
+                    bVarValueFlag = true;
+                    continue;
+                } else if (cChar==' ') {
+                
+                } else {
+                    oErrorLogger.fnErrorF("Error in configuration file '%s'", 0, sFilePath.c_str());
+                    break;
+                }
+            }
+        }
+      
+        if (bVarValueFlag) {
+        
+        }
+        std::cout << cChar << std::endl;
     } 
     
     oFileBuf.close();

@@ -41,3 +41,21 @@ std::string FileSystem::fnGetExecutableDirPath()
     
     return sPath;
 }
+
+std::string FileSystem::fnGetFullPath(std::string sFileName)
+{
+    std::string sFilePath;
+    
+    if (sFileName.length()<1) {
+        return sFilePath;
+    }
+    
+    if (sFileName[0]=='/') {
+        sFilePath = sFileName;
+    } else {
+        std::string sCurrentDir = FileSystem::fnGetExecutableDirPath();
+        sFilePath = sCurrentDir + "/" + sFileName;
+    }
+    
+    return sFilePath;
+}

@@ -15,6 +15,7 @@ class FileSystem
         static std::string fnGetCurrentDir();
         static std::string fnGetExecutablePath();
         static std::string fnGetExecutableDirPath();
+        static std::string fnGetFullPath(std::string sFileName);
 };
 
 #endif
