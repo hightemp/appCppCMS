@@ -24,42 +24,96 @@ void Configuration::fnLoadFile(std::string sFileName)
     }
     
     bool bStringFlag = false;
+    bool bFloatFlag = false;
     bool bIntFlag = false;
+    bool bNumberFlag = false;
     bool bVarNameFlag = false;
     bool bVarValueFlag = false;
 
     std::string sVarName;
-    std::string sValue;
+    std::string sVarValue;
+    char cStringQuote = 0;
+    int iLineNumber = 1;
     
-    while (oFileBuf.snextc() != EOF) {
+    while (oFileBuf.in_avail() > 0) {
         char cChar = oFileBuf.sgetc();
       
-        if (!bVarNameFlag) {
-            if (cChar>='a' && cChar<='z' || cChar>='0' && cChar<='9') {
-                sVarName += cChar;
-                bVarNameFlag = true;
+        if (bVarValueFlag) {
+            if (bStringFlag) {
+                if (cChar==cStringQuote) {
+                    this->fnSetString(sVarName, sVarValue);
+                    bStringFlag = false;
+                    bVarValueFlag = false;
+                } else {
+                    sVarValue += cChar;
+                }
+            } else if (bNumberFlag) {
+                if (cChar=='.') {
+                    bFloatFlag = true;
+                    bIntFlag = false;
+                    sVarValue += cChar;
+                } else if (cChar>='0' && cChar<='9') {
+                    sVarValue += cChar;
+                } else {
+                    if (bIntFlag) {
+                        this->fnSetInt(sVarName, std::stoi(sVarValue, nullptr, 0));
+                    }
+                    bFloatFlag = false;
+                    bIntFlag = false;
+                    bNumberFlag = false;
+                    bVarValueFlag = false;
+                }
+            } else {
+                if (cChar==' ') {
+                    
+                } else if (cChar>='0' && cChar<='9') {
+                    bNumberFlag = true;
+                    bIntFlag = true;
+                    bFloatFlag = false;
+                    sVarValue += cChar;
+                } else if (cChar=='.') {
+                    bNumberFlag = true;
+                    bIntFlag = false;
+                    bFloatFlag = true;
+                    sVarValue += cChar;
+                } else if (cChar=='"' || cChar=='\'') {
+                    cStringQuote = cChar;
+                    bStringFlag = true;
+                }
             }
         } else {
-            if (cChar>='a' && cChar<='z' || cChar>='0' && cChar<='9') {
-                sVarName += cChar;
+            if (!bVarNameFlag) {
+                if ((cChar>='a' && cChar<='z') || (cChar>='A' && cChar<='Z') || (cChar>='0' && cChar<='9')) {
+                    sVarName += cChar;
+                    bVarNameFlag = true;
+                }
             } else {
-                if (cChar=='=') {
-                    bVarNameFlag = false;
-                    bVarValueFlag = true;
-                    continue;
-                } else if (cChar==' ') {
-                
+                if ((cChar>='a' && cChar<='z') || (cChar>='A' && cChar<='Z') || (cChar>='0' && cChar<='9')) {
+                    sVarName += cChar;
                 } else {
-                    oErrorLogger.fnErrorF("Error in configuration file '%s'", 0, sFilePath.c_str());
-                    break;
+                    if (cChar=='=') {
+                        bVarNameFlag = false;
+                        bVarValueFlag = true;
+                    } else if (cChar==' ') {
+                    
+                    } else {
+                        oErrorLogger.fnErrorF("Error in configuration file '%s' at line %d", 0, sFilePath.c_str(), iLineNumber);
+                        std::cout << "Error" << std::endl;
+                        break;
+                    }
                 }
             }
         }
-      
-        if (bVarValueFlag) {
         
+        if (!bStringFlag) {
+            if (cChar=='\n') {
+                sVarValue = "";
+                sVarName = "";
+                iLineNumber++;
+            }
         }
-        std::cout << cChar << std::endl;
+        
+        oFileBuf.snextc();
     } 
     
     oFileBuf.close();
