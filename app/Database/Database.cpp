@@ -4,7 +4,13 @@
 Database::Database()
 {
     this->poDriver = get_driver_instance();
-    this->fnCreateConnection("Main", "127.0.0.1", "root", "", "test");
+    this->fnCreateConnection(
+        "Main", 
+        oConfiguration.fnGetString("sDatabaseHost"), 
+        oConfiguration.fnGetString("sDatabaseUser"), 
+        oConfiguration.fnGetString("sDatabasePassword"), 
+        oConfiguration.fnGetString("sDatabaseDatabase")
+    );
 }
 
 Database::~Database()

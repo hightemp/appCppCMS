@@ -32,6 +32,7 @@ struct ConfigurationIntNode : public ConfigurationNode
 class Configuration
 {
     TStringConfigurationNodeUnorderedMap oStore;
+    bool bIsLoaded = false;
     
     public:
         Configuration();
@@ -40,9 +41,11 @@ class Configuration
         void fnLoadFile(std::string sFileName);
         
         void fnSetString(std::string sKey, std::string sValue);
-        std::string fnGetString(std::string sKey, std::string sDefaultValue);
+        std::string fnGetString(std::string sKey, std::string sDefaultValue="");
         void fnSetInt(std::string sKey, int iValue);
         int fnGetInt(std::string sKey, int iDefaultValue);
+        
+        bool fnIsLoaded();
 };
 
 #endif

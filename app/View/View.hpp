@@ -54,4 +54,16 @@ class View
         std::string fnGetScriptTags();
 };
 
+inline View& operator<<(View& oView, std::string sValue)
+{
+    oView.fnWriteToBuffer(sValue);
+    return oView;
+}
+
+inline View& operator<<(View& oView, int iValue)
+{
+    oView.fnWriteToBuffer(std::to_string(iValue));
+    return oView;
+}
+
 #endif

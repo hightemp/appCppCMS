@@ -20,6 +20,7 @@ void Configuration::fnLoadFile(std::string sFileName)
     
     if (!oFileBuf.is_open()) {
         oErrorLogger.fnErrorF("Configuration file '%s' did not open", 0, sFilePath.c_str());
+        this->bIsLoaded = false;
         return;
     }
     
@@ -98,7 +99,7 @@ void Configuration::fnLoadFile(std::string sFileName)
                     
                     } else {
                         oErrorLogger.fnErrorF("Error in configuration file '%s' at line %d", 0, sFilePath.c_str(), iLineNumber);
-                        std::cout << "Error" << std::endl;
+                        this->bIsLoaded = false;
                         break;
                     }
                 }
@@ -117,6 +118,7 @@ void Configuration::fnLoadFile(std::string sFileName)
     } 
     
     oFileBuf.close();
+    this->bIsLoaded = true;
 }
 
 void Configuration::fnSetString(std::string sKey, std::string sValue)
@@ -147,4 +149,9 @@ int Configuration::fnGetInt(std::string sKey, int iDefaultValue)
         return iDefaultValue;
     }
     return  ((ConfigurationIntNode *) this->oStore[sKey].get())->iValue;
+}
+
+bool Configuration::fnIsLoaded() 
+{
+    return this->bIsLoaded;
 }

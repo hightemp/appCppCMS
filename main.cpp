@@ -1,7 +1,6 @@
 
 #include "main.hpp"
 
-using namespace std;
 using namespace cgicc;
 
 Logger oErrorLogger("errors.log", 0);
@@ -38,24 +37,25 @@ int main(int argc, char **argv, char** env)
 {
     oView.fnAddScriptSrc("test.js");
     oView.fnHTML5Open();
-    oView.fnHTML5Close();
-    
-    oResponse.fnSetContent(oView);
-    oResponse.fnFlush();
     
     oDatabase.fnQuery("DROP TABLE IF EXISTS test");
     oDatabase.fnQuery("CREATE TABLE test(id INT, label CHAR(1))");
     oDatabase.fnQuery("INSERT INTO test(id, label) VALUES (1, 'a')");
     
     PResultSet poResult = oDatabase.fnGetRowsF("SELECT id, label FROM test WHERE id>:i ORDER BY id ASC", 0);
-    cout << '"' << oDatabase.fnGetFieldF("SELECT id, label FROM test WHERE id>:i ORDER BY id ASC", 0) << '"' << endl;
+    oView << '"' << oDatabase.fnGetFieldF("SELECT id, label FROM test WHERE id>:i ORDER BY id ASC", 0) << '"' << "<br>";
     while (poResult->next()) {
         // You can use either numeric offsets...
-        cout << "id = " << poResult->getInt(1); // getInt(1) returns the first column
+        oView << "id = " << poResult->getInt(1) << "<br>"; // getInt(1) returns the first column
         // ... or column names for accessing results.
         // The latter is recommended.
-        cout << ", label = '" << poResult->getString("label") << "'" << endl;
+        oView << ", label = '" << poResult->getString("label") << "'" << "<br>";
     }
+    
+    oView.fnHTML5Close();
+    
+    oResponse.fnSetContent(oView);
+    oResponse.fnFlush();
 
     /*
     void* handle = dlopen("./addons/test/addon.so", RTLD_LAZY);
