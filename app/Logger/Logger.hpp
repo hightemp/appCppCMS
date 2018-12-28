@@ -25,8 +25,7 @@ class Logger
     public:
     
         Logger(std::string sLogFileName, char cLogLevel);
-        Logger(Configuration &oConfiguration);
-        Logger();
+        Logger(Configuration *oConfiguration);
         ~Logger();
         
         void fnLog(std::string sString, char cLogLevel);

@@ -17,6 +17,7 @@
 #include <malloc.h>
 
 #include "Configuration.hpp"
+#include "Logger.hpp"
 
 typedef std::unique_ptr<sql::ResultSet> PResultSet;
 typedef std::unique_ptr<sql::Statement> PStatement;
@@ -41,7 +42,6 @@ class Database
         sql::Driver* poDriver;
         std::string sCurrentConnetionName;
         
-        Database();
         Database(Logger *oErrorLogger, Configuration &oConfiguration);
         ~Database();
         

@@ -3,30 +3,6 @@
 
 using namespace cgicc;
 
-void handle_segv()
-{
-    oErrorLogger.fnError("Segmentation fault", 0);
-    throw std::runtime_error("SEGV");
-}
-
-void handle_fpe()
-{
-    oErrorLogger.fnError("Floating point exception", 0);
-    throw std::runtime_error("FPE");
-}
-
-struct Initializer
-{
-    Initializer()
-    {
-        segvcatch::init_segv(&handle_segv);
-        segvcatch::init_fpe(&handle_fpe);
-    }
-};
-
-Initializer oInitializer;
-Application oApplication;
-
 int main(int argc, char **argv, char** env)
 {
     oApplication.fnRun();

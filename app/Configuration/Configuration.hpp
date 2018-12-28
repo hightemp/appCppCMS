@@ -7,6 +7,9 @@
 #include <cstdio>
 
 #include "Types.hpp"
+#include "Logger.hpp"
+
+class Logger;
 
 struct ConfigurationNode
 {

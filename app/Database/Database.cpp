@@ -1,21 +1,16 @@
 
 #include "Database.hpp"
 
-Database::Database()
-{
-    
-}
-
-Database(Logger *oErrorLogger, Configuration &oConfiguration)
+Database(Logger *oErrorLogger, Configuration *oConfiguration)
 {
     this->oErrorLogger = oErrorLogger;
     this->poDriver = get_driver_instance();
     this->fnCreateConnection(
         "Main", 
-        oConfiguration.fnGetString("sDatabaseHost"), 
-        oConfiguration.fnGetString("sDatabaseUser"), 
-        oConfiguration.fnGetString("sDatabasePassword"), 
-        oConfiguration.fnGetString("sDatabaseDatabase")
+        oConfiguration->fnGetString("sDatabaseHost"), 
+        oConfiguration->fnGetString("sDatabaseUser"), 
+        oConfiguration->fnGetString("sDatabasePassword"), 
+        oConfiguration->fnGetString("sDatabaseDatabase")
     );
 }
 
