@@ -12,27 +12,10 @@
 #include <stdexcept>
 #include <malloc.h>
 
-#include "Logger.hpp"
-#include "HTTPProxy.hpp"
-#include "View.hpp"
-#include "Response.hpp"
-#include "Database.hpp"
-#include "Configuration.hpp"
-#include "FileSystem.hpp"
-#include "DateTime.hpp"
 #include "Application.hpp"
 
-class Logger;
-class Configuration;
-class Database;
-class View;
-class Response;
+#include "InstallationController.hpp"
 
-extern Logger oErrorLogger;
-extern Configuration oConfiguration;
-extern Logger oLogger;
-extern View oView;
-extern Response oResponse;
-extern Database oDatabase;
+extern Application oApplication;
 
 #endif

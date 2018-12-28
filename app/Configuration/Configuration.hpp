@@ -7,7 +7,6 @@
 #include <cstdio>
 
 #include "Types.hpp"
-#include "main.hpp"
 
 struct ConfigurationNode
 {
@@ -33,9 +32,10 @@ class Configuration
 {
     TStringConfigurationNodeUnorderedMap oStore;
     bool bIsLoaded = false;
+    Logger *oErrorLogger;
     
     public:
-        Configuration();
+        Configuration(Logger *oErrorLogger);
         ~Configuration();
         
         void fnLoadFile(std::string sFileName);

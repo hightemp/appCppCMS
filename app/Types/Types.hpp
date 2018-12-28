@@ -17,4 +17,10 @@ struct ConfigurationNode;
 typedef ConfigurationNode * PConfigurationNode;
 typedef std::unordered_map<std::string, std::unique_ptr<ConfigurationNode>> TStringConfigurationNodeUnorderedMap;
 
+class BaseController;
+
+typedef std::unordered_map<std::string, BaseController*> TStringBaseControllerUnorderedMap;
+typedef void (BaseController::*TControllerMethod)();
+typedef std::unordered_map<std::string, TControllerMethod> TStringTControllerMethodUnorderedMap;
+
 #endif

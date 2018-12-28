@@ -3,8 +3,6 @@
 
 using namespace cgicc;
 
-Logger oErrorLogger("errors.log", 0);
-
 void handle_segv()
 {
     oErrorLogger.fnError("Segmentation fault", 0);
@@ -27,35 +25,11 @@ struct Initializer
 };
 
 Initializer oInitializer;
-Configuration oConfiguration;
-Logger oLogger;
-View oView;
-Response oResponse;
-Database oDatabase;
+Application oApplication;
 
 int main(int argc, char **argv, char** env)
 {
-    oView.fnAddScriptSrc("test.js");
-    oView.fnHTML5Open();
-    
-    oDatabase.fnQuery("DROP TABLE IF EXISTS test");
-    oDatabase.fnQuery("CREATE TABLE test(id INT, label CHAR(1))");
-    oDatabase.fnQuery("INSERT INTO test(id, label) VALUES (1, 'a')");
-    
-    PResultSet poResult = oDatabase.fnGetRowsF("SELECT id, label FROM test WHERE id>:i ORDER BY id ASC", 0);
-    oView << '"' << oDatabase.fnGetFieldF("SELECT id, label FROM test WHERE id>:i ORDER BY id ASC", 0) << '"' << "<br>";
-    while (poResult->next()) {
-        // You can use either numeric offsets...
-        oView << "id = " << poResult->getInt(1) << "<br>"; // getInt(1) returns the first column
-        // ... or column names for accessing results.
-        // The latter is recommended.
-        oView << ", label = '" << poResult->getString("label") << "'" << "<br>";
-    }
-    
-    oView.fnHTML5Close();
-    
-    oResponse.fnSetContent(oView);
-    oResponse.fnFlush();
+    oApplication.fnRun();
 
     /*
     void* handle = dlopen("./addons/test/addon.so", RTLD_LAZY);

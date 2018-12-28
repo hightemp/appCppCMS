@@ -1,8 +1,9 @@
 
 #include "Configuration.hpp"
 
-Configuration::Configuration()
+Configuration::Configuration(Logger *oErrorLogger)
 {
+    this->oErrorLogger = oErrorLogger;
     this->fnLoadFile("config.cfg");
 }
 
@@ -19,7 +20,7 @@ void Configuration::fnLoadFile(std::string sFileName)
     oFileBuf.open(sFilePath, std::ios::in);
     
     if (!oFileBuf.is_open()) {
-        oErrorLogger.fnErrorF("Configuration file '%s' did not open", 0, sFilePath.c_str());
+        this->oErrorLogger->fnErrorF("Configuration file '%s' did not open", 0, sFilePath.c_str());
         this->bIsLoaded = false;
         return;
     }
@@ -98,7 +99,7 @@ void Configuration::fnLoadFile(std::string sFileName)
                     } else if (cChar==' ') {
                     
                     } else {
-                        oErrorLogger.fnErrorF("Error in configuration file '%s' at line %d", 0, sFilePath.c_str(), iLineNumber);
+                        this->oErrorLogger->fnErrorF("Error in configuration file '%s' at line %d", 0, sFilePath.c_str(), iLineNumber);
                         this->bIsLoaded = false;
                         break;
                     }

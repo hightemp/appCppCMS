@@ -18,12 +18,16 @@ Logger::Logger(std::string sLogFileName, char cLogLevel)
     );
 }
 
-Logger::Logger()
+Logger::Logger(Configuration &oConfiguration)
 {
     this->fnInitialize(
         oConfiguration.fnGetString("sLogFilePath", "logger.log"),
         oConfiguration.fnGetInt("cLogLevel", 3)
     );
+}
+
+Logger::Logger()
+{
 }
 
 Logger::~Logger()

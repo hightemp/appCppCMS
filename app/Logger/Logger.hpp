@@ -5,9 +5,15 @@
 #include <iostream>
 #include <fstream>
 #include <time.h>
+#include <stdexcept>
+#include <memory.h>
+#include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <cstdarg>
 
-#include "main.hpp"
+#include "Configuration.hpp"
+#include "FileSystem.hpp"
 
 class Logger
 {
@@ -19,6 +25,7 @@ class Logger
     public:
     
         Logger(std::string sLogFileName, char cLogLevel);
+        Logger(Configuration &oConfiguration);
         Logger();
         ~Logger();
         

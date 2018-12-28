@@ -13,8 +13,10 @@
 #include <stdarg.h>
 #include <sstream>
 #include <algorithm>
+#include <stdexcept>
+#include <malloc.h>
 
-#include "main.hpp"
+#include "Configuration.hpp"
 
 typedef std::unique_ptr<sql::ResultSet> PResultSet;
 typedef std::unique_ptr<sql::Statement> PStatement;
@@ -32,12 +34,15 @@ struct Connection
 
 class Database
 {
+    Logger *oErrorLogger;
+    
     public:
         std::unordered_map<std::string, Connection> oConnections;
         sql::Driver* poDriver;
         std::string sCurrentConnetionName;
         
         Database();
+        Database(Logger *oErrorLogger, Configuration &oConfiguration);
         ~Database();
         
         void fnCreateConnection(

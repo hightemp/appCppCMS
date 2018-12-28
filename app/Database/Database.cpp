@@ -3,6 +3,12 @@
 
 Database::Database()
 {
+    
+}
+
+Database(Logger *oErrorLogger, Configuration &oConfiguration)
+{
+    this->oErrorLogger = oErrorLogger;
     this->poDriver = get_driver_instance();
     this->fnCreateConnection(
         "Main", 
@@ -82,7 +88,7 @@ std::string Database::fnFormatQuery(std::string sQuery, ...)
             }
         });
     } catch (std::exception& oException) {
-        oErrorLogger.fnErrorF("Exception catched: %s", 0, oException.what());
+        this->oErrorLogger->fnErrorF("Exception catched: %s", 0, oException.what());
     }
     
     va_end(pArguments); 
