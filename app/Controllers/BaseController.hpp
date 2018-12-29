@@ -9,12 +9,16 @@
 
 #include "Types.hpp"
 
+class Application;
+
 class BaseController
 {
-    TStringTControllerMethodUnorderedMap oControllersMethods;
+    protected:
+        TStringTControllerMethodUnorderedMap oControllersMethods;
+        Application *oApplication;
 
     public:
-        BaseController() {}
+        BaseController(Application *oApplication): oApplication(oApplication) {}
         virtual ~BaseController() {}
         
         void fnAddControllerFunction(
