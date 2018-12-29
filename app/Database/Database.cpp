@@ -1,7 +1,7 @@
 
 #include "Database.hpp"
 
-Database(Logger *oErrorLogger, Configuration *oConfiguration)
+Database::Database(Logger *oErrorLogger, Configuration *oConfiguration)
 {
     this->oErrorLogger = oErrorLogger;
     this->poDriver = get_driver_instance();
