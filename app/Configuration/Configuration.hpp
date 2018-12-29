@@ -17,14 +17,14 @@ struct ConfigurationNode
     ConfigurationNode(char cType) : cType(cType) {};
 };
 
-struct ConfigurationStringNode : public ConfigurationNode
+struct ConfigurationStringNode : ConfigurationNode
 {
     std::string sValue;
     
     ConfigurationStringNode() : ConfigurationNode(1) {};
 };
 
-struct ConfigurationIntNode : public ConfigurationNode
+struct ConfigurationIntNode : ConfigurationNode
 {
     int iValue;
 
