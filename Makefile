@@ -40,7 +40,7 @@ build:
 		$(APP_FILES) \
 	-o $(CGI_BIN_PATH)/$(CGI_OUTPUT_FILE_NAME) \
 	$(foreach INCLUDE_DIR, $(APP_DIRS), -I$(INCLUDE_DIR)) \
-	$(LIBS) 2> "errors.txt"
+	$(LIBS) 2> errors.txt
 
 clean:
 	rm -f cgi-bin/*.cgi
@@ -49,6 +49,7 @@ clean:
 	$(MAKE) clean -C lib/*/.
 	find tests/. -iwholename '*cmake*' -not -name CMakeLists.txt -delete
 	rm -f tests/Makefile
+	rm -f errors.txt
 	
 .PHONY: all test clean addons/*/.
 .DEFAULT_GOAL := all
