@@ -1,4 +1,6 @@
 
+#include "Application.hpp"
+
 #include "Request.hpp"
 
 Request::~Request()

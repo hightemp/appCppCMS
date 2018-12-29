@@ -1,8 +1,5 @@
 
 #include "InstallationController.hpp"
-//#include "Application.hpp"
-
-//extern Application oApplication;
 
 InstallationController oInstallationController(&oApplication);
 

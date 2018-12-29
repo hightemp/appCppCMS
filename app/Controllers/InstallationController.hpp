@@ -10,9 +10,11 @@
 #include "Types.hpp"
 #include "BaseController.hpp"
 
+#include "Application.hpp"
+
 class Application;
 
-//extern Application oApplication;
+extern Application oApplication;
 
 class InstallationController : BaseController
 {
