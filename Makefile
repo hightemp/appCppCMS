@@ -40,7 +40,7 @@ build:
 		$(APP_FILES) \
 	-o $(CGI_BIN_PATH)/$(CGI_OUTPUT_FILE_NAME) \
 	$(foreach INCLUDE_DIR, $(APP_DIRS), -I$(INCLUDE_DIR)) \
-	$(LIBS)
+	$(LIBS) 2> "errors.txt"
 
 clean:
 	rm -f cgi-bin/*.cgi

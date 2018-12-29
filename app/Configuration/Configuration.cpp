@@ -17,11 +17,12 @@ void Configuration::fnLoadFile(std::string sFileName)
     std::filebuf oFileBuf;
     std::string sFilePath = FileSystem::fnGetFullPath(sFileName);
     
+    this->bIsLoaded = false;
+    
     oFileBuf.open(sFilePath, std::ios::in);
     
     if (!oFileBuf.is_open()) {
         this->oErrorLogger->fnErrorF("Configuration file '%s' did not open", 0, sFilePath.c_str());
-        this->bIsLoaded = false;
         return;
     }
     
@@ -100,8 +101,8 @@ void Configuration::fnLoadFile(std::string sFileName)
                     
                     } else {
                         this->oErrorLogger->fnErrorF("Error in configuration file '%s' at line %d", 0, sFilePath.c_str(), iLineNumber);
-                        this->bIsLoaded = false;
-                        break;
+                        oFileBuf.close();
+                        return;
                     }
                 }
             }

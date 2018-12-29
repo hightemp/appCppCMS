@@ -1,11 +1,29 @@
 
 #include "main.hpp"
 
-using namespace cgicc;
+#include "Logger.hpp"
+#include "View.hpp"
+#include "Response.hpp"
+#include "Configuration.hpp"
+#include "Database.hpp"
+#include "FileSystem.hpp"
+#include "DateTime.hpp"
+#include "Request.hpp"
+
+#include "BaseController.hpp"
+
+#include "Application.hpp"
+
+#include "InstallationController.hpp"
 
 int main(int argc, char **argv, char** env)
 {
-    oApplication.fnRun();
+    try {
+        oApplication.fnRun(argc, argv, env);
+    } catch(std::exception& oException) {
+        oApplication.oErrorLogger.fnError(oException.what(), 0);
+    }
+    
 
     /*
     void* handle = dlopen("./addons/test/addon.so", RTLD_LAZY);

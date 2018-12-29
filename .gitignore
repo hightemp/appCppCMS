@@ -10,3 +10,4 @@
 /tests/bin/*
 !/tests/bin
 !/tests/bin/.gitignore
+/errors.txt

@@ -15,6 +15,8 @@
 #include "Configuration.hpp"
 #include "FileSystem.hpp"
 
+class Configuration;
+
 class Logger
 {
     std::filebuf oFileBuf;

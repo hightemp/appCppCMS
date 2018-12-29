@@ -20,8 +20,12 @@ Application::~Application()
     
 }
 
-void Application::fnRun()
+void Application::fnRun(int &iArgCount, char **&cppArgs, char **&cppEnvironment)
 {
+    for (int iIndex=0; iIndex<24; iIndex++) {
+        this->oEnvironmentVars[saEnvironmentVarsNames[iIndex]] = cppEnvironment[iIndex];
+    }
+    
     this->fnCallControllerMethod("InstallationController", "fnTest");
     
     this->oResponse.fnSetContent(this->oView);

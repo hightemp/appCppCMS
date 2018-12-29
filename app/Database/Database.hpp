@@ -42,7 +42,7 @@ class Database
         sql::Driver* poDriver;
         std::string sCurrentConnetionName;
         
-        Database(Logger *oErrorLogger, Configuration &oConfiguration);
+        Database(Logger *oErrorLogger, Configuration *oConfiguration);
         ~Database();
         
         void fnCreateConnection(

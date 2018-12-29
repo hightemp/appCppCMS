@@ -9,19 +9,18 @@
 #include "lib/segvcatch/lib/segvcatch.h"
 #include <stdexcept>
 
-#include "Logger.hpp"
-#include "View.hpp"
-#include "Response.hpp"
-#include "Database.hpp"
-#include "Configuration.hpp"
-#include "FileSystem.hpp"
-#include "DateTime.hpp"
-
 #include "Types.hpp"
-#include "BaseController.hpp"
 
 void handle_segv();
 void handle_fpe();
+
+class BaseController;
+class Logger;
+class Configuration;
+class View;
+class Response;
+class Database;
+class Request;
 
 class Application
 {
@@ -34,19 +33,35 @@ class Application
         View oView;
         Response oResponse;
         Database oDatabase;
+        Request oRequest;
         
+        TStringStringUnorderedMap oEnvironmentVars;
+    
+        const std::string saEnvironmentVarsNames[24] = {
+           "COMSPEC", "DOCUMENT_ROOT", "GATEWAY_INTERFACE",   
+           "HTTP_ACCEPT", "HTTP_ACCEPT_ENCODING",             
+           "HTTP_ACCEPT_LANGUAGE", "HTTP_CONNECTION",         
+           "HTTP_HOST", "HTTP_USER_AGENT", "PATH",            
+           "QUERY_STRING", "REMOTE_ADDR", "REMOTE_PORT",      
+           "REQUEST_METHOD", "REQUEST_URI", "SCRIPT_FILENAME",
+           "SCRIPT_NAME", "SERVER_ADDR", "SERVER_ADMIN",      
+           "SERVER_NAME", "SERVER_PORT", "SERVER_PROTOCOL",     
+           "SERVER_SIGNATURE", "SERVER_SOFTWARE"
+        };
+   
         Application(): 
             oErrorLogger("errors.log", 0),
             oConfiguration(&oErrorLogger), 
             oLogger(&oConfiguration),
-            oDatabase(&oErrorLogger, &oConfiguration) 
+            oDatabase(&oErrorLogger, &oConfiguration),
+            oRequest(this)
         {
             segvcatch::init_segv(&handle_segv);
             segvcatch::init_fpe(&handle_fpe);
         }
         ~Application();
         
-        void fnRun();
+        void fnRun(int &iArgCount, char **&cppArgs, char **&cppEnvironment);
         
         void fnAddController(std::string sControllerName, BaseController *pPointer);
         void fnCallControllerMethod(std::string sControllerName, std::string sControllerMethodName);

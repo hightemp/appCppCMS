@@ -26,7 +26,7 @@ class InstallationController : BaseController
         
         void fnTest()
         {
-            std::cout << "TEST" << std::endl;
+            std::cout << "TEST2" << std::endl;
             oApplication.oView.fnAddScriptSrc("test.js");
             oApplication.oView.fnHTML5Open();
             
