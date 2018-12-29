@@ -5,14 +5,14 @@ InstallationController oInstallationController(&oApplication);
 
 InstallationController::InstallationController(Application *oApplication): BaseController(oApplication)
 {
-    std::cout << "InstallationController" << std::endl;
+    //std::cout << "InstallationController" << std::endl;
     this->oApplication->fnAddController("InstallationController", this);
     this->fnAddControllerFunction("fnTest", (TControllerMethod) &InstallationController::fnTest);
 }
 
 void InstallationController::fnTest()
 {
-    std::cout << "TEST2" << std::endl;
+    //std::cout << "TEST2" << std::endl;
     this->oApplication->oView.fnAddScriptSrc("test.js");
     this->oApplication->oView.fnHTML5Open();
     

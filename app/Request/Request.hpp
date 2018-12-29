@@ -31,6 +31,7 @@ class Request
         bool fnIsPost();
         bool fnIsGet();
         std::string fnGetMethod();
+        std::vector<std::string> &fnGetVarNames();
 };
 
 #endif

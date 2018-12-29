@@ -37,3 +37,20 @@ std::string Request::fnGetMethod()
 {
     return this->oApplication->oEnvironmentVars["REQUEST_METHOD"];
 }
+
+std::vector<std::string> &Request::fnGetVarNames()
+{
+    static bool bInit = false;
+    static std::vector<std::string> oVarNames;
+    
+    if (!bInit) {
+        for(cgicc::const_form_iterator oIterator = this->oCGI.getElements().begin(); 
+            oIterator != this->oCGI.getElements().end(); 
+            ++oIterator) {
+            oVarNames.push_back(oIterator->getName());
+        }
+        bInit = true;
+    }
+    
+    return oVarNames;
+}
